@@ -13,7 +13,6 @@ var Parser = module.exports = {};
 
 var TOP_FIELDS = [
   'title',
-  'subtitle',
   'description',
   'author',
   'pubDate',
@@ -30,6 +29,7 @@ var PODCAST_TOP_FIELDS = [
 ];
 var ITEM_FIELDS = [
   'title',
+  'subtitle',
   'link',
   'pubDate',
   'author',
