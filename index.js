@@ -10,6 +10,7 @@ var Parser = module.exports = {};
 
 var TOP_FIELDS = [
   'title',
+  'subtitle',
   'description',
   'author',
   'pubDate',
