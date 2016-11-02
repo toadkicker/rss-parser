@@ -11606,8 +11606,11 @@ var haveSlice = haveArrayBuffer && isFunction(global.ArrayBuffer.prototype.slice
 exports.arraybuffer = haveArrayBuffer && checkTypeSupport('arraybuffer')
 // These next two tests unavoidably show warnings in Chrome. Since fetch will always
 // be used if it's available, just return false for these to avoid the warnings.
-exports.msstream = !exports.fetch && haveSlice && browser == 'ie' && checkTypeSupport('ms-stream')
-exports.mozchunkedarraybuffer = !exports.fetch && haveArrayBuffer && browser == 'firefox' && checkTypeSupport('moz-chunked-arraybuffer')
+exports.msstream = !exports.fetch && haveSlice && browser == 'ie'
+  && checkTypeSupport('ms-stream')
+exports.mozchunkedarraybuffer = !exports.fetch && haveArrayBuffer
+  && browser == 'firefox'
+  && checkTypeSupport('moz-chunked-arraybuffer')
 exports.overrideMimeType = isFunction(xhr.overrideMimeType)
 exports.vbArray = isFunction(global.VBArray)
 
