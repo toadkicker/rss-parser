@@ -1,5 +1,10 @@
 # rss-parser
 
+## Notable changes in this fork
+Supports 'subtitle' RSS attribute in items.
+Plans to support customized RSS feed attributes.
+Squashes browser compatibility issues.
+
 ## Installation
 
 ### NodeJS
