@@ -167,7 +167,7 @@ var decorateItunes = function decorateItunes(json, channel) {
     }
     json.feed.itunes.owner = owner;
   }
-  
+
   PODCAST_TOP_FIELDS.forEach(function(f) {
     if (channel['itunes:' + f]) json.feed.itunes[f] = channel['itunes:' + f][0];
   });
@@ -11575,6 +11575,21 @@ var xhr = new global.XMLHttpRequest()
 // from a Blob, then use example.com to avoid an error
 xhr.open('GET', global.location.host ? '/' : 'https://example.com')
 
+function whatBrowserAmI () {
+
+    var userAgent = window.navigator.userAgent;
+    var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
+
+    for(var key in browsers) {
+        if (browsers[key].test(userAgent)) {
+            return key;
+        }
+    };
+    return 'unknown';
+}
+
+var browser = whatBrowserAmI();
+
 function checkTypeSupport (type) {
 	try {
 		xhr.responseType = type
@@ -11591,9 +11606,11 @@ var haveSlice = haveArrayBuffer && isFunction(global.ArrayBuffer.prototype.slice
 exports.arraybuffer = haveArrayBuffer && checkTypeSupport('arraybuffer')
 // These next two tests unavoidably show warnings in Chrome. Since fetch will always
 // be used if it's available, just return false for these to avoid the warnings.
-exports.msstream = !exports.fetch && haveSlice && checkTypeSupport('ms-stream')
-exports.mozchunkedarraybuffer = !exports.fetch && haveArrayBuffer &&
-	checkTypeSupport('moz-chunked-arraybuffer')
+exports.msstream = !exports.fetch && haveSlice && browser == 'ie'
+  && checkTypeSupport('ms-stream')
+exports.mozchunkedarraybuffer = !exports.fetch && haveArrayBuffer
+  && browser == 'firefox'
+  && checkTypeSupport('moz-chunked-arraybuffer')
 exports.overrideMimeType = isFunction(xhr.overrideMimeType)
 exports.vbArray = isFunction(global.VBArray)
 
@@ -12003,7 +12020,7 @@ IncomingMessage.prototype._onXHRProgress = function () {
 				self.push(new Buffer(response))
 				break
 			}
-			// Falls through in IE8	
+			// Falls through in IE8
 		case 'text':
 			try { // This will fail when readyState = 3 in IE9. Switch mode and wait for readyState = 4
 				response = xhr.responseText
